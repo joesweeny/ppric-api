@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: ppric-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/user_tracking
+      - GROK_API_KEY=xai-X1iseSp5c0yLamkHEdftfwBpP7ViH1oHz6yluazgbR6zZUiYkfVu4SKa8Dlwz17lQ5rK4JmDP7FGUkMf
+    depends_on:
+      - mongodb
+
+  console:
+    build: .
+    container_name: ppric-console
+    volumes:
+      - ./app:/app
+    environment:
+      - FLASK_ENV=production
+      - MONGO_URI=mongodb://mongodb:27017/user_tracking
+      - GROK_API_KEY=xai-X1iseSp5c0yLamkHEdftfwBpP7ViH1oHz6yluazgbR6zZUiYkfVu4SKa8Dlwz17lQ5rK4JmDP7FGUkMf
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  mongodb:
+    image: mongo:latest
+    container_name: shrs-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=user_tracking
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "--quiet" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  mongodb_data:
