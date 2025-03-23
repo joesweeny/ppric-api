@@ -11,7 +11,6 @@ services:
     environment:
       - FLASK_ENV=production
       - MONGO_URI=mongodb://mongodb:27017/user_tracking
-      - GROK_API_KEY=xai-X1iseSp5c0yLamkHEdftfwBpP7ViH1oHz6yluazgbR6zZUiYkfVu4SKa8Dlwz17lQ5rK4JmDP7FGUkMf
     depends_on:
       - mongodb
 
@@ -23,7 +22,6 @@ services:
     environment:
       - FLASK_ENV=production
       - MONGO_URI=mongodb://mongodb:27017/user_tracking
-      - GROK_API_KEY=xai-X1iseSp5c0yLamkHEdftfwBpP7ViH1oHz6yluazgbR6zZUiYkfVu4SKa8Dlwz17lQ5rK4JmDP7FGUkMf
     depends_on:
       mongodb:
         condition: service_healthy
